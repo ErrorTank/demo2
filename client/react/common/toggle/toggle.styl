@@ -1,0 +1,39 @@
+.toggle{
+  .toggle-btn{
+    height 27px
+    border-radius 60px
+    width 55px
+    cursor pointer
+    position relative
+    display inline-block
+    vertical-align middle
+    .dot{
+      border-radius 50%
+      background-color white
+      height 23px
+      width 23px
+      top 2px
+      transition all 0.5s ease
+      position absolute
+    }
+    &.on{
+      background-color #7dbc36
+      .dot{
+        right 2px
+      }
+    }
+    &.off{
+      background-color grey
+      .dot{
+        left 2px
+      }
+    }
+  }
+  .toggle-label{
+    color black
+    margin-left 10px
+    font-size sm - 0.2rem
+    vertical-align middle
+    display inline-block
+  }
+}

@@ -1,0 +1,38 @@
+.search-and-result {
+  width 100%
+  background-color white
+  border-radius 4px
+  border 1px solid grey
+  .search-wrap{
+    margin 6px
+    .search-org{
+      width 100%
+      border 1px solid grey
+      outline none
+      border-radius 4px
+      padding 5px 8px
+      font-size sm - 0.1rem
+    }
+  }
+
+  .org-list{
+    overflow-y scroll
+    min-height 50px
+    max-height 300px
+    .org-name{
+      padding 6px 14px
+      color #4d4d4d
+      font-size sm - 0.2rem
+      text-align left
+      font-weight 550
+      cursor pointer
+      &.h-light{
+        background-color rgba(125, 188, 54, 0.2)
+      }
+      &:hover{
+        color white
+        background-color #7dbc36
+      }
+    }
+  }
+}

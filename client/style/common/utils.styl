@@ -25,3 +25,18 @@ scrollStyle(color){
     background: darken(color,5%)
   }
 }
+setTransition(time){
+  transition all time ease
+}
+scaleHorizontal(root, scale, time){
+  @keyframes sh{
+    from {
+      width root
+    }
+    to{
+      width scale
+    }
+  }
+
+  animation sh time ease forwards
+}

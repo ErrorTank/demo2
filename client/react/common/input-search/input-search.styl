@@ -1,0 +1,40 @@
+.input-search{
+  position relative
+  padding 0 40px
+  border 1px solid grey
+  border-radius 4px
+  overflow hidden
+  .go-btn{
+    position absolute
+    top 50%
+    transform translateY(-50%)
+    right 0
+    background-color #677ea0
+    border none
+    color white
+    text-align center
+    width 35px
+    font-size 12px
+    font-weight 550
+    height 100%
+    transition all 0.1s ease
+    &:hover{
+      background-color #2364c2
+    }
+  }
+  i{
+    position absolute
+    font-size sm
+    top 50%
+    left 14px
+    color #4d4d4d
+    transform translateY(-50%)
+  }
+  input{
+    width 100%
+    border none
+    outline none
+    padding 6px
+    font-size sm
+  }
+}

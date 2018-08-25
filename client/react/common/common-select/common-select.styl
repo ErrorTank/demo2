@@ -1,0 +1,63 @@
+.common-select{
+
+  .select-label{
+    color #4d4d4d
+    font-weight bold
+    font-size sm + 0.2rem
+  }
+
+  .select{
+    position relative
+    margin-top 8px
+    border 1px solid grey
+    border-radius 4px
+    padding 6px 10px
+    background-color white
+    padding-right 23px
+    cursor pointer
+    .select-toggle{
+
+
+      font-size sm
+
+
+      color #666
+      white-space nowrap
+      overflow hidden
+      i{
+        position absolute
+        right 10px
+        top 50%
+        transform translateY(-50%)
+      }
+    }
+    .select-content{
+      position absolute
+      width 100%
+      left 0
+      top 105%
+      border-radius 4px
+      box-shadow 0 6px 10px rgba(0,0,0,.3)
+      z-index 10
+      background-color white
+      overflow-x hidden
+      overflow-y scroll
+      max-height: 200px
+      .content{
+        padding 6px 10px
+        color black
+        font-size sm - 0.3rem
+        font-weight 550
+        &.active{
+          background-color rgba(125,188,54,.2)
+        }
+        &:hover{
+          color white
+          background-color #7dbc36
+        }
+      }
+    }
+  }
+
+
+}

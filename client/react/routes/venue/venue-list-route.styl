@@ -1,0 +1,52 @@
+.venue-list-route{
+  .route-header{
+    background-color white
+    padding 15px 25px
+    justify-content space-between
+    align-items center
+    display flex
+    .title{
+      color #4d4d4d
+      font-weight bold
+      font-size md
+    }
+    .to-add-venue{
+        padding 10px 60px
+        background-color #2364c2
+        color white
+
+        font-weight bold
+        font-size 19px
+        border none
+        border-radius 4px
+        text-align center
+        transition all 0.1s ease
+        &:hover{
+          background-color darken(#2364c2, 10%)
+        }
+    }
+  }
+  .route-body{
+    padding 30px 50px
+    text-align center
+    .table-wrap{
+      margin-top 15px
+
+    }
+    .action-panel{
+      .search-venue{
+        display inline-block
+        width 54%
+        margin-right 1%
+        background-color white
+        vertical-align top
+      }
+      .select-org{
+        display inline-block
+        width 45%
+        background-color white
+        vertical-align top
+      }
+    }
+  }
+}

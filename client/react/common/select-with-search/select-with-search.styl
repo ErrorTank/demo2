@@ -1,0 +1,46 @@
+.select-with-search{
+  position relative
+  border 1px solid grey
+  border-radius 4px
+  .result-panel{
+    position absolute
+    width 100%
+    top 110%
+    overflow hidden
+    left 0
+    box-shadow 0 6px 10px rgba(0,0,0,.3)
+  }
+
+  .select-toggle{
+    color #949494
+    padding 6px
+    padding-left 10px
+    cursor pointer
+    height 100%
+    vertical-align middle
+    text-align left
+    font-size 1.6rem
+    border-radius 4px
+    transition all 0.1s ease
+    padding-right 35px
+    border 1px solid transparent
+    &:hover{
+      border-color #949494
+    }
+  }
+  .fa-sort-down{
+    position absolute
+    font-size 15px
+    color black
+    top 27%
+    right 10px
+
+  }
+  .fa-times{
+    position absolute
+    font-size 15px
+    color black
+    top 27%
+    right 28px
+  }
+}
