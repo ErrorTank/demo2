@@ -3,6 +3,8 @@ import {venueApi} from "../../../../../api/common/app/venue-api";
 import {appModal} from "../../../../common/modals/modals";
 import {customHistory} from "../../../../main-route";
 import {orgApi} from "../../../../../api/common/app/org-api";
+import _ from "lodash";
+import {PromiseSerial} from "../../../../utils/common-utils";
 
 export class FetchVenueInfo extends React.Component{
     constructor(props){
@@ -16,9 +18,13 @@ export class FetchVenueInfo extends React.Component{
         })
     };
 
-    handleDeleteVenueMap = data => {
-
-        venueApi.canDeleteVenueMap(data.id).then(result => {
+    handleDeleteVenueMap = (data, i) => {
+        let promises = Promise.resolve(true);
+        let {venueMaps} = this.state;
+        if(data.id) {
+            promises = promises.then(() => venueApi.canDeleteVenueMap(data.id))
+        }
+        promises.then(result => {
             if(!result){
                 return appModal.alert({
                     title: "You may not delete this venue map.",
@@ -40,6 +46,12 @@ export class FetchVenueInfo extends React.Component{
                                     mapsDraft: newVenueMaps,
                                     venueMaps: newVenueMaps
                                 });
+                            });
+                        }else{
+                            let newVenueMaps = venueMaps;
+                            newVenueMaps.splice(i, 1);
+                            this.setState({
+                                venueMaps: newVenueMaps
                             });
                         }
                     }
@@ -74,6 +86,85 @@ export class FetchVenueInfo extends React.Component{
         })
     };
 
+    save = () => {
+        const {info, infoDraft, mapsDraft, venueMaps} = this.state;
+        const getOldVenueMap = (id) => mapsDraft.find(vM => vM.id === id);
+        const upsertVenueMapFn = (orgId, info, venueMap) => {
+            if (venueMap.timestamp || !_.isEqual(venueMap, getOldVenueMap(venueMap.id)))
+                return orgApi.upsertVenueMap(
+                    orgId,
+                    info.id,
+                    {..._.omit(venueMap, "timestamp"), venue: info}
+                );
+            else
+                return Promise.resolve(venueMap);
+        };
+        let promises = [];
+        console.log(info)
+        console.log(infoDraft)
+        if (!_.isEqual(info, infoDraft)) {
+            promises.push(() => venueApi.upsertVenue(info, infoDraft.organization.id));
+        } else {
+            promises.push(() => Promise.resolve(infoDraft));
+        }
+        let defaultVenueMap = null;
+
+        const notDefaultMaps = venueMaps.filter((venueMap) =>{
+            if (venueMap.default) defaultVenueMap = venueMap;
+            return !venueMap.default;
+        });
+
+        if (defaultVenueMap) {
+            promises.push(([_venue]) =>
+                upsertVenueMapFn(infoDraft.organization.id, _venue, defaultVenueMap)
+            );
+        }
+
+        promises.push(([_venue]) => Promise.all(notDefaultMaps.map((venueMap) =>
+            upsertVenueMapFn(infoDraft.organization.id, _venue, venueMap))
+        ));
+        promises.push(() => this.getVenueMaps(infoDraft.organization.id, infoDraft.id));
+
+        PromiseSerial(promises)
+            .then(() => {
+                this.setState({
+                    infoDraft: info,
+                    loading: false,
+                });
+            })
+            .then(() => {
+                const oldDefaultVenueMap = venueMaps.find(vM => vM.default);
+                if (defaultVenueMap && (defaultVenueMap.timestamp || !oldDefaultVenueMap || !_.isEqual(oldDefaultVenueMap.id, defaultVenueMap.id))) {
+                    this.updateVenueAllEvents();
+                }
+            });
+    };
+
+    updateVenueAllEvents = () => {
+        const {infoDraft, mapsDraft} = this.state;
+        const defaultVenueMap = mapsDraft.find(vM => vM.default);
+        appModal.confirm({
+            text: "Do you want to update the seat map of all active outings using this venue?",
+            title: "Bulk Update",
+            buttonText: "Yes, update",
+            cancelText: "No, only future outings"
+        })
+            .then((confirm) => {
+                if (confirm) {
+                    orgApi.bulkUpdateVenueAllEvents(infoDraft, defaultVenueMap.id);
+                }
+            });
+    };
+
+    getVenueMaps(orgId, venueId) {
+        return orgApi.getVenueMaps(orgId, venueId).then((venueMaps) => {
+            console.log(venueMaps)
+            this.setState(
+                    {venueMaps, mapsDraft: venueMaps})
+            }
+        );
+    }
+
     render(){
         let {children} = this.props;
         let {info, loading, infoDraft, mapsDraft, venueMaps} = this.state;
@@ -89,7 +180,8 @@ export class FetchVenueInfo extends React.Component{
                         infoDraft,
                         mapsDraft,
                         venueMaps,
-                        deleteVenueMap: this.handleDeleteVenueMap
+                        deleteVenueMap: this.handleDeleteVenueMap,
+                        save: this.save
                     })
                 }
             </Fragment>

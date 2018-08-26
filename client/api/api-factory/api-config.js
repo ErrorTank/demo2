@@ -36,9 +36,16 @@ export const apiFactory = {
 
                 return new Promise((resolve, reject)=>{
                     $.ajax({
-                        url,
+                        url: hostURL + url,
                         type: 'POST',
-                        beforeSend,
+                        beforeSend: (xhr) => {
+                            if (headers && headers.length) {
+                                headers.map(({key, content}) => xhr.setRequestHeader(key, content));
+                            }
+                            if(beforeSend){
+                                beforeSend(xhr);
+                            }
+                        },
                         data: formData,
                         cache: false,
                         dataType: 'json',

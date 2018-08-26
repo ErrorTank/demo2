@@ -7,16 +7,20 @@ export class Toggle extends React.Component{
         };
     };
     render(){
-        let {label, value} = this.props;
+        let {label, value, onToggle} = this.props;
         return(
             <div className={`toggle`}>
-                <div className={`toggle-btn ${value === "on" ? "on" : "off"}`}>
+                <div className={`toggle-btn ${value ? "on" : "off"}`}
+                     onClick={() => {
+                         onToggle(!value)
+                     }}
+                >
                     <div className="dot">
 
                     </div>
                 </div>
                 <div className="toggle-label">
-                    {value === "on" ? label.on : label.off}
+                    {value ? label.on : label.off}
                 </div>
             </div>
         );
