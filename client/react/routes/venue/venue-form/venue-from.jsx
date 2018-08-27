@@ -41,7 +41,6 @@ export class VenueForm extends React.Component{
 
             return ListCountries.find(c => c.country.value === country).states;
         };
-        console.log(name)
         return(
             <div className="venue-form">
                 <div className="left-panel">
@@ -141,6 +140,7 @@ export class VenueForm extends React.Component{
                         maps={maps}
                         onChange={this.handleChangeMap}
                         deleteVenueMap={deleteVenueMap}
+                        info={info}
                     />
                 </div>
             </div>

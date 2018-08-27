@@ -1,4 +1,4 @@
-export const sendRequest = ({url, type, data, headers}) => new Promise((resolve, reject) => {
+export const sendRequest = ({url, type, data, headers, beforeSend}) => new Promise((resolve, reject) => {
     let ajaxConfig = {
         url,
         contentType: "application/json",
@@ -6,6 +6,9 @@ export const sendRequest = ({url, type, data, headers}) => new Promise((resolve,
         beforeSend: (xhr) => {
             if (headers && headers.length) {
                 headers.map(({key, content}) => xhr.setRequestHeader(key, content));
+            }
+            if(beforeSend){
+                beforeSend(xhr);
             }
         },
         success: (data) => {

@@ -11,6 +11,8 @@ import {CommonFormControl} from "../../../common/common-form-control/common-form
 import {FetchVenueInfo} from "./fetch-venue-info/fetch-venue-info";
 import {validationUtils} from "../../../utils/validation-utils";
 import {createFrom} from "../../../utils/form-utils";
+import _ from "lodash"
+import {arrUtils} from "../../../utils/arr-utils";
 
 
 export const venueValidation = info => {
@@ -44,13 +46,15 @@ export class VenueEditRoute extends React.Component {
 
                 >
                     {
-                        ({info, handleDeleteVenue, onChange, infoDraft, mapsDraft, venueMaps, deleteVenueMap}) => {
+                        ({info, handleDeleteVenue, onChange, infoDraft, mapsDraft, venueMaps, deleteVenueMap, save}) => {
                             let {name, organization} = infoDraft || {};
-                            let {address, timezone} = info || {};
+                            let {address, timezone, name: changeName} = info || {};
                             let {address1, city, country, state, zip_code} = address;
-                            let data = {address1, city, country, state, zip_code, timezone};
+                            let data = {name: changeName, address1, city, country, state, zip_code, timezone};
                             let venueForm = createFrom(data);
+                            console.log(data);
                             let invalidPaths = venueForm.getInvalidPaths(venueValidation(data));
+                            console.log(invalidPaths)
                             return (
                                 <div className="venue-edit-route">
                                     <div className="header">
@@ -85,7 +89,8 @@ export class VenueEditRoute extends React.Component {
                                             renderControl={
                                                 <CommonFormControl
                                                     onCancel={() => customHistory.push("/venue-list")}
-                                                    //canSave={}
+                                                    canSave={invalidPaths.length === 0 && (!_.isEqual(info, infoDraft) || !arrUtils.compareObjArr(venueMaps, mapsDraft))}
+                                                    onSave={() => save()}
                                                 />
                                             }
                                         />

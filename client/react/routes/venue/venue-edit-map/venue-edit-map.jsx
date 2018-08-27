@@ -3,6 +3,7 @@ import {VenueMapItem} from "../venue-map-item/venue-map-item";
 import {DropZone} from "../../../common/drop-zone/drop-zone";
 import {uploadApi} from "../../../../api/common/app/upload-api";
 import {modals} from "../../../common/modals/modals";
+import {InsertNameModal} from "../../../common/modals/insert-name-modal/insert-name-modal";
 
 export function uploadNewImage(file, type = "new") {
     return new Promise((resolve, reject) => {
@@ -16,7 +17,6 @@ export function uploadNewImage(file, type = "new") {
 
         if (type === "new") {
             const modal = modals.openModal({
-                mustConfirm: true,
                 content: (
                     <InsertNameModal
                         onConfirm={(name) => confirm(name)}
@@ -26,8 +26,6 @@ export function uploadNewImage(file, type = "new") {
                         }}
                     />
                 ),
-                size: "md",
-                className: "enter-file-name"
             });
 
             function confirm(name) {
@@ -48,13 +46,17 @@ export class VenueEditMap extends React.Component {
         };
     };
 
+
+
     addNewMap = file => uploadNewImage(file)
         .then(({file, name}) => {
-            let {onChange, maps} = this.props;
+            let {onChange, maps, info} = this.props;
                 let newMaps = {
                     default: false,
                     name: name,
                     image: file,
+                    venue: info,
+                    timestamp: Date.now()
                 };
                 onChange(maps.concat(newMaps))
             }
@@ -65,9 +67,13 @@ export class VenueEditMap extends React.Component {
         });
 
     handleChangeMap = (index, data) =>{
+        let def = data.default;
         let newMapsArr = this.props.maps.map((each, i) => {
             if(i === index){
                 return data;
+            }
+            if(def === true){
+                each.default = false;
             }
             return each;
         });
@@ -94,7 +100,10 @@ export class VenueEditMap extends React.Component {
                                 imagePreview={null}
                                 placeholder={uploadPlaceholder}
                                 className="upload-new"
-                                onChange={this.addNewMap}
+                                onChange={(e) => {
+                                    console.log("dasd")
+                                    return this.addNewMap(e);
+                                }}
                             />
                             <i className="fas fa-times"
                                onClick={() => this.setState({openDropzone: false})}
@@ -106,7 +115,7 @@ export class VenueEditMap extends React.Component {
                             <VenueMapItem
                                 info={each}
                                 key={i}
-                                onDelete={() => deleteVenueMap(each)}
+                                onDelete={() => deleteVenueMap(each, i)}
                                 onChange={(data) => this.handleChangeMap(i, data)}
                             />
                         ))

@@ -1,7 +1,7 @@
 import {countries} from "../common/list-countries";
 
 
-let required = val => !!val === true;
+let required = val => !!val;
 
 let zipCodeMatch = country => {
     let validator = countries.find(each => each.country.value === country).country.validation.zip;
