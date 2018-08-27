@@ -32,7 +32,7 @@ export class VenueMapItem extends React.Component{
                 <div className="footer">
                     <div className="left">
                         <div className="title">Default Seat Map</div>
-                        <Toggle
+                        <Togglexx
                             value={info.default ? "on" : "off"}
                             label={{
                                 on: "Yes",
