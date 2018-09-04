@@ -25,7 +25,6 @@ export class VenueMapItem extends React.Component{
 
     render(){
         let {info, onDelete, onChange} = this.props;
-        console.log(info);
         return(
             <div className="venue-map-item">
                 <DropZone

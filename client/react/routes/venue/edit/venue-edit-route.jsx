@@ -122,6 +122,9 @@ export class VenueEditRoute extends React.Component {
         const {info, infoDraft, mapsDraft, venueMaps} = this.state;
         const getOldVenueMap = (id) => mapsDraft.find(vM => vM.id === id);
         const upsertVenueMapFn = (orgId, info, venueMap) => {
+            console.log(venueMap)
+            console.log(getOldVenueMap(venueMap.id))
+            console.log(mapsDraft)
             if (venueMap.timestamp || !_.isEqual(venueMap, getOldVenueMap(venueMap.id)))
                 return orgApi.upsertVenueMap(
                     orgId,
@@ -132,8 +135,7 @@ export class VenueEditRoute extends React.Component {
                 return Promise.resolve(venueMap);
         };
         let promises = [];
-        console.log(info)
-        console.log(infoDraft)
+
         if (!_.isEqual(info, infoDraft)) {
             promises.push(() => venueApi.upsertVenue(info, infoDraft.organization.id));
         } else {
@@ -145,6 +147,7 @@ export class VenueEditRoute extends React.Component {
             if (venueMap.default) defaultVenueMap = venueMap;
             return !venueMap.default;
         });
+
 
         if (defaultVenueMap) {
             promises.push(([_venue]) =>
@@ -178,7 +181,7 @@ export class VenueEditRoute extends React.Component {
         appModal.confirm({
             text: "Do you want to update the seat map of all active outings using this venue?",
             title: "Bulk Update",
-            buttonText: "Yes, update",
+            btnText: "Yes, update",
             cancelText: "No, only future outings"
         })
             .then((confirm) => {
@@ -199,6 +202,7 @@ export class VenueEditRoute extends React.Component {
 
     render() {
         let {info, loading, infoDraft, mapsDraft, venueMaps} = this.state;
+        console.log(mapsDraft);
         let {name, organization} = infoDraft || {};
         let {address, timezone, name: changeName} = info || {};
         let {address1, city, country, state, zip_code} = address || {};
@@ -215,6 +219,7 @@ export class VenueEditRoute extends React.Component {
         let venueForm = createFrom(data);
         let invalidPaths = venueForm.getInvalidPaths(venueValidation(data));
         let onChange = change => {
+            console.log(change);
             this.setState({...change})
         };
         return (

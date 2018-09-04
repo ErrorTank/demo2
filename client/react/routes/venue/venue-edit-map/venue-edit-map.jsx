@@ -73,7 +73,7 @@ export class VenueEditMap extends React.Component {
                 return data;
             }
             if(def === true){
-                each.default = false;
+                return {...each, default: false}
             }
             return each;
         });
