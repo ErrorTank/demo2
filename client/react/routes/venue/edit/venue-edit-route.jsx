@@ -8,7 +8,6 @@ import {appModal} from "../../../common/modals/modals";
 import {PageFormLayout} from "../../../common/page-form-layout/page-form-layout";
 import {VenueForm} from "../venue-form/venue-from";
 import {CommonFormControl} from "../../../common/common-form-control/common-form-control";
-import {FetchVenueInfo} from "./fetch-venue-info/fetch-venue-info";
 import {validationUtils} from "../../../utils/validation-utils";
 import {createFrom} from "../../../utils/form-utils";
 import _ from "lodash"
