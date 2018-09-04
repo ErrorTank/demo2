@@ -201,7 +201,7 @@ export class VenueEditRoute extends React.Component {
         let {info, loading, infoDraft, mapsDraft, venueMaps} = this.state;
         let {name, organization} = infoDraft || {};
         let {address, timezone, name: changeName} = info || {};
-        let {address1, city, country, state, zip_code} = address;
+        let {address1, city, country, state, zip_code} = address || {};
         let data = {
             name: changeName,
             address1,
@@ -219,9 +219,10 @@ export class VenueEditRoute extends React.Component {
         };
         return (
             <InitTitle title="Groupmatics Management">
-                <div className="venue-edit-route">
-                    <div className="header">
-                        <div>
+                {!loading && (
+                    <div className="venue-edit-route">
+                        <div className="header">
+                            <div>
                                             <span className="navigate-to-list"
                                                   onClick={() => customHistory.push("/venue-list")}
                                             >
@@ -229,37 +230,41 @@ export class VenueEditRoute extends React.Component {
                                                 &nbsp;
                                                 Back to Venues
                                             </span>
+                            </div>
+                            <div className="logo-wrapper">
+                                <Logo
+                                    label={name}
+                                    imgSrc={organization.logo_url}
+                                />
+                            </div>
                         </div>
-                        <div className="logo-wrapper">
-                            <Logo
-                                label={name}
-                                imgSrc={organization.logo_url}
+                        <div className="body">
+                            <PageFormLayout
+                                renderForm={
+                                    <VenueForm
+                                        info={info}
+                                        onChange={onChange}
+                                        onDelete={this.handleDeleteVenue}
+                                        invalidPaths={invalidPaths}
+                                        maps={venueMaps}
+                                        deleteVenueMap={this.handleDeleteVenueMap}
+                                        canDelete={true}
+                                    />
+                                }
+                                renderControl={
+                                    <CommonFormControl
+                                        onCancel={() => customHistory.push("/venue-list")}
+                                        canSave={invalidPaths.length === 0 && (!_.isEqual(info, infoDraft) || !arrUtils.compareObjArr(venueMaps, mapsDraft))}
+                                        onSave={() => this.save()}
+                                    />
+                                }
                             />
                         </div>
                     </div>
-                    <div className="body">
-                        <PageFormLayout
-                            renderForm={
-                                <VenueForm
-                                    info={info}
-                                    onChange={onChange}
-                                    onDelete={this.handleDeleteVenue}
-                                    invalidPaths={invalidPaths}
-                                    maps={venueMaps}
-                                    deleteVenueMap={this.handleDeleteVenueMap}
-                                    canDelete={true}
-                                />
-                            }
-                            renderControl={
-                                <CommonFormControl
-                                    onCancel={() => customHistory.push("/venue-list")}
-                                    canSave={invalidPaths.length === 0 && (!_.isEqual(info, infoDraft) || !arrUtils.compareObjArr(venueMaps, mapsDraft))}
-                                    onSave={() => this.save()}
-                                />
-                            }
-                        />
-                    </div>
-                </div>
+                )
+
+                }
+
 
             </InitTitle>
         );
