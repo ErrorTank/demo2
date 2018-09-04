@@ -92,8 +92,8 @@ export class VenueEditRoute extends React.Component {
         })
     };
 
-    handleDeleteVenue = (info) => {
-
+    handleDeleteVenue = () => {
+        let {info} = this.state;
         let {id: venueID, organization} = info;
         let {id: orgID} = organization;
         venueApi.canDelete(venueID).then(result => {
