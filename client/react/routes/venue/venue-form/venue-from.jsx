@@ -4,12 +4,20 @@ import {CommonSelect} from "../../../common/common-select/common-select";
 import {countries as ListCountries} from "../../../common/list-countries";
 import {timezones} from "../../../common/timezone";
 import {VenueEditMap} from "../venue-edit-map/venue-edit-map";
+import {SelectWithSearch} from "../../../common/select-with-search/select-with-search";
+import {orgApi} from "../../../../api/common/app/org-api";
 
 
 
 export class VenueForm extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+
+        };
+        if(props.needOrg){
+            orgApi.getBriefs().then(orgs => this.setState({orgs}))
+        }
     };
 
     handleChange = (obj) => {
@@ -25,10 +33,10 @@ export class VenueForm extends React.Component{
 
 
     render(){
-
-        let {info, onDelete, maps, deleteVenueMap} = this.props;
-        let {name, address ,timezone, facebook_place_id} = info || {};
-        let {address1, address2, city, country, state, zip_code} = address;
+        let {orgs} = this.state;
+        let {info, onDelete, maps, deleteVenueMap, needOrg, canDelete} = this.props;
+        let {name, address ,timezone, facebook_place_id, organization} = info || {};
+        let {address1, address2, city, country, state, zip_code} = address || {};
         let updateAddress = obj => {
             this.handleChange({address: {...address, ...obj}})
         };
@@ -41,9 +49,31 @@ export class VenueForm extends React.Component{
 
             return ListCountries.find(c => c.country.value === country).states;
         };
+
         return(
             <div className="venue-form">
                 <div className="left-panel">
+                    {needOrg && (
+                        <div className="venue-form-section">
+                            <div className="org-label">
+                                Organization
+                            </div>
+                            <div className="org-pick-wrap">
+                                <SelectWithSearch
+                                    className="select-org"
+                                    placeholder="Organization"
+                                    list={orgs}
+                                    value={organization}
+                                    onPick={val => this.handleChange({organization: val})}
+                                    displayAs={(org) => org.name}
+                                />
+                            </div>
+
+                        </div>
+
+                    )
+
+                    }
                     <CommonInput
                         className={`venue-name venue-form-section`}
                         type="text"
@@ -82,6 +112,7 @@ export class VenueForm extends React.Component{
                         value={country || ""}
                         label="Country"
                         compare={(target, value) => target === value}
+                        placeholder="Country"
                     />
                     <div className="venue-form-section">
                         <div className="p1">
@@ -93,6 +124,7 @@ export class VenueForm extends React.Component{
                                 value={state || ""}
                                 label="State/Province"
                                 compare={(target, value) => target === value}
+                                placeholder="State/Province"
                             />
                         </div>
                         <div className="p2">
@@ -117,6 +149,7 @@ export class VenueForm extends React.Component{
                         compare={(target, value) => {
                             return target === value
                         }}
+                        placeholder="Timezone"
                     />
                     <CommonInput
                         className={`fb-id venue-form-section`}
@@ -125,15 +158,20 @@ export class VenueForm extends React.Component{
                         value={facebook_place_id || ""}
                         label="Facebook Place ID"
                     />
-                    <div className="del-wrap venue-form-section"
-                         onClick={onDelete}
-                    >
-                        <i className="fas fa-trash-alt"/>
-                        &nbsp;
-                        <span>
-                           Delete this venue
-                        </span>
-                    </div>
+                    {canDelete && (
+                        <div className="del-wrap venue-form-section"
+                             onClick={onDelete}
+                        >
+                            <i className="fas fa-trash-alt"/>
+                            &nbsp;
+                            <span>
+                                Delete this venue
+                            </span>
+                        </div>
+                    )
+
+                    }
+
                 </div>
                 <div className="right-panel">
                     <VenueEditMap

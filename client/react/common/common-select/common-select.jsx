@@ -11,7 +11,7 @@ export class CommonSelect extends React.Component {
 
     render() {
         let {open} = this.state;
-        let {value, label, list, displayAs, className, onChange, compare} = this.props;
+        let {value, label, list, displayAs, className, onChange, compare, placeholder} = this.props;
         return (
             <div className={`common-select ${className}`}>
                 <div className="select-label">
@@ -24,7 +24,7 @@ export class CommonSelect extends React.Component {
                         <div className="select-toggle"
 
                         >
-                            {displayAs(value)}
+                            {value ? displayAs(value) : placeholder}
                             <i className="fas fa-sort-down"/>
                         </div>
                         {open && (

@@ -66,7 +66,6 @@ export class VenueListRoute extends React.Component {
                                 placeholder="All Organizations"
                                 list={orgs}
                                 value={org}
-                                onSelect={val => this.setState({org: val})}
                                 displayAs={(org) => org.name}
                                 onPick={org => this.setState({org})}
                             />

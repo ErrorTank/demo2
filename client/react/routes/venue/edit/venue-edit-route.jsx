@@ -16,7 +16,7 @@ import {arrUtils} from "../../../utils/arr-utils";
 
 
 export const venueValidation = info => {
-    let {required, zipCodeMatch} = validationUtils;
+    let {required, zipCodeMatch, notEmpty} = validationUtils;
     return {
         "name": [required],
         "address1": [required],
@@ -25,6 +25,7 @@ export const venueValidation = info => {
         "state": [required],
         "zip_code": [required, zipCodeMatch(info.country)],
         "timezone": [required],
+        "venueMaps" : [notEmpty]
     }
 };
 
@@ -50,11 +51,9 @@ export class VenueEditRoute extends React.Component {
                             let {name, organization} = infoDraft || {};
                             let {address, timezone, name: changeName} = info || {};
                             let {address1, city, country, state, zip_code} = address;
-                            let data = {name: changeName, address1, city, country, state, zip_code, timezone};
+                            let data = {name: changeName, address1, city, country, state, zip_code, timezone, venueMaps};
                             let venueForm = createFrom(data);
-                            console.log(data);
                             let invalidPaths = venueForm.getInvalidPaths(venueValidation(data));
-                            console.log(invalidPaths)
                             return (
                                 <div className="venue-edit-route">
                                     <div className="header">
@@ -84,6 +83,7 @@ export class VenueEditRoute extends React.Component {
                                                     invalidPaths={invalidPaths}
                                                     maps={venueMaps}
                                                     deleteVenueMap={deleteVenueMap}
+                                                    canDelete={true}
                                                 />
                                             }
                                             renderControl={

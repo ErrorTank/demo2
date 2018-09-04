@@ -26,7 +26,7 @@ export class DataTable extends React.Component {
     loadData = (changes = {}) => {
         let {pageSize, filter, api} = changes;
         let {page, sort} = this.state;
-        api({skip: (page - 1) * pageSize, take: pageSize, filter, sort}).then(result => {
+        return api({skip: (page - 1) * pageSize, take: pageSize, filter, sort}).then(result => {
             this.setState({
                 rows: result.rows,
                 total: result.total
@@ -34,9 +34,25 @@ export class DataTable extends React.Component {
         })
     };
 
+    handleSort = sortKey => {
+        let {sort} = this.state;
+        let nextSort = sort === null ? {orderBy: sortKey, orderAsc: true} : sort.orderAsc === true ? {orderBy: sortKey, orderAsc: false} : null;
+        this.setState({sort: nextSort}, () => {
+            this.loadData(this.props);
+        })
+    };
+
+    renderSortIcon = isAsc => {
+        return isAsc ? (
+            <i className="fas fa-arrow-up"/>
+        ): (
+            <i className="fas fa-arrow-down"/>
+        )
+    };
+
     render() {
         let {className, columns, rowLinkTo, pageSize} = this.props;
-        let {rows, page, total} = this.state;
+        let {rows, page, total, sort} = this.state;
         return (
             <div className={`data-table ${className}`}>
                 <div className="table-wrap">
@@ -45,8 +61,10 @@ export class DataTable extends React.Component {
                         <tr>
                             {columns.map((each, i) => (
                                 <th key={i}
+                                    onClick={() => this.handleSort(each.sortKey)}
                                 >
                                     {each.label}
+                                    {sort && (sort.orderBy === each.sortKey && this.renderSortIcon(sort.orderAsc))}
                                 </th>
                             ))}
                         </tr>
