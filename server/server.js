@@ -24,3 +24,4 @@ app.get("*", (req, res ,next) => {
 server.listen(process.env.PORT || config.port, () => {
     console.log(`Server running at:${config.port}` );
 });
+console.log("jhaha")
