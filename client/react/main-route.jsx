@@ -7,6 +7,9 @@ import {VenueListRoute} from "./routes/venue/venue-list-route";
 import {VenueEditRoute} from "./routes/venue/edit/venue-edit-route";
 import {ModalsRegistry} from "./common/modals/modals";
 import {VenueNewRoute} from "./routes/venue/new/venue-new-route";
+import {EventListRoute} from "./routes/event/event-list-route";
+import {EventNewRoute} from "./routes/event/new/event-new-route";
+import {EventEditRoute} from "./routes/event/edit/event-edit-route";
 
 export class MainRoute extends React.Component {
     constructor(props) {
@@ -25,7 +28,11 @@ export class MainRoute extends React.Component {
                         <Route exact path="/venue/:venueID" component={VenueEditRoute}/>
                         <Route exact path="/venue-list" component={VenueListRoute}/>
                         <Route exact path="/venue-new" component={VenueNewRoute}/>
-                        <Route render={(props) => <Redirect to="/venue-list"/>}/>
+                        <Route exact path="/venue/:venueID" component={VenueEditRoute}/>
+                        <Route exact path="/events" component={EventListRoute}/>
+                        <Route exact path="/event-new" component={EventNewRoute}/>
+                        <Route exact path="/event/:eventID" component={EventEditRoute}/>
+                        <Route render={(props) => <Redirect to="/events"/>}/>
                     </Switch>
 
                 </Router>
