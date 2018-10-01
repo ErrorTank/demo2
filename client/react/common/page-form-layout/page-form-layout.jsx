@@ -7,9 +7,9 @@ export class PageFormLayout extends React.Component{
         };
     };
     render(){
-        let {renderForm, renderControl} = this.props;
+        let {renderForm, renderControl, className} = this.props;
         return(
-            <div className="page-form-layout">
+            <div className={`page-form-layout ${className ? className : ""}`}>
                 <div className="page-form">
                     {renderForm}
                 </div>

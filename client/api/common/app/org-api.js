@@ -18,4 +18,7 @@ export const orgApi = {
     getVenueMaps(organizationId, venueId) {
         return appApi.get(`/manage/organization/${organizationId}/venue/${venueId}/map`);
     },
+    getVenues(organizationId) {
+        return appApi.get(`/manage/organization/${organizationId}/venues`);
+    },
 };

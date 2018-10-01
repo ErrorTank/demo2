@@ -33,7 +33,7 @@ export class CommonSelect extends React.Component {
                         {open && (
                             <div className="select-content">
                                 {list.map((each, i) => (
-                                    <div className={`content ${compare(each, value) ? "active" : ""}`}
+                                    <div className={`content ${compare ? compare(each, value) ? "active" : "" : ""}`}
                                          key={i}
                                          onClick={() => {
                                              this.setState({open: false});

@@ -3,7 +3,7 @@ import {Modal} from "./modal";
 import _ from "lodash";
 
 export const appModal = {
-    alert({text, title, btnText}) {
+    alert({text, title, btnText = "Confirm"}) {
         const modal = modals.openModal({
             content: (
                 <div className="alert-modal">

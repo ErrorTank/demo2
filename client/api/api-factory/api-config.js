@@ -26,6 +26,9 @@ export const apiFactory = {
             post: withPayload("POST"),
             put: withPayload("PUT"),
             delete: withoutPayload("DELETE"),
+            downloadStream(url) {
+                window.open(hostURL + url);
+            },
             postMultipart: (url, data) => {
                 let formData = new FormData();
                 _.forIn(data, (value, key)=>{

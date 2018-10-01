@@ -1,0 +1,19 @@
+.radio{
+  border-radius 50%
+  width 25px
+  height 25px
+  display inline-block
+  background-color rgba(128,128,128,.5)
+  color white
+  position relative
+  cursor pointer
+  i{
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+  }
+  &.isChecked{
+    background-color #7dbc36
+  }
+}

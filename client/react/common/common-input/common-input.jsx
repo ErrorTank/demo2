@@ -7,17 +7,29 @@ export class CommonInput extends React.Component{
         };
     };
     render(){
-        let {label, className, onChange, ...all} = this.props;
+        let {label, className, onChange,isTextArea = false, ...all} = this.props;
         return(
             <div className={`common-input ${className}`}>
                 <div className="input-label">
                     {label}
                 </div>
                 <div className="input-wrap">
-                    <input
-                        {...all}
-                        onChange={e => onChange(e.target.value)}
-                    />
+                    {isTextArea ? (
+                        <textarea
+                            {...all}
+                            onChange={e => onChange(e.target.value)}
+                        >
+
+                        </textarea>
+                    ) : (
+                        <input
+                            {...all}
+                            onChange={e => onChange(e.target.value)}
+                        />
+                    )
+
+                    }
+
                 </div>
             </div>
         );

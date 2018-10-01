@@ -1,0 +1,93 @@
+.status-bar{
+  display flex
+
+  .status-bar-panel{
+    padding 6px 10px
+    flex-grow 1
+    .download-report-btn{
+      font-size sm + 0.2rem
+      padding 10px 10px
+      text-align center
+    }
+    .action-select{
+      margin-top 10px
+    }
+    .title {
+      color #666
+      font-size sm - 0.1rem
+      font-weight 600
+    }
+    .value{
+      font-size lg + 0.3rem
+      color #666
+      font-weight bold
+      padding 15px 0
+    }
+    &.has-border{
+      border-right 1px solid grey
+    }
+    &.info{
+      .event-info{
+        padding-left 75px
+        .line{
+          font-size sm - 0.3rem
+          color #666
+          font-weight 550
+        }
+      }
+    }
+  }
+}
+.modal-disable-outing{
+  position relative
+  width 600px
+  margin auto
+  margin-top 170px
+  background-color white
+  border 1px solid grey
+  border-radius 5px
+  .modal-header{
+    padding 27px 20px 7px 24px
+    border-bottom 1px solid grey
+    color #686868
+    font-size lg
+    font-weight 550
+  }
+  .modal-body{
+    padding 30px 30px 45px 26px
+    color #4d4d4d
+    font-size sm - 0.1rem
+    border-bottom 1px solid grey
+    input{
+      width 100%
+      border 1px solid grey
+      border-radius 4px
+      outline none
+      padding 6px 12px
+    }
+  }
+  .modal-footer{
+    padding 25px 30px
+    display flex
+    justify-content flex-end
+    .modal-btn{
+      &.confirm-btn{
+        background-color #2364c2
+        color white
+        font-size sm + 0.1rem
+        text-align center
+        padding 15px 36px
+        border-radius 3px
+      }
+      &.cancel-btn{
+        background-color white
+        border 1px solid grey
+        color #686868
+        font-size sm + 0.1rem
+        text-align center
+        padding 15px 36px
+        border-radius 3px
+      }
+    }
+  }
+}

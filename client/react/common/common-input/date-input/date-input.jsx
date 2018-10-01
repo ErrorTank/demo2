@@ -11,9 +11,14 @@ export class DateInput extends React.Component{
     render(){
         return(
             <div className="date-input">
-                <CommonInput
-                    {...this.props}
-                />
+                <div className="input-contain">
+                    <CommonInput
+                        {...this.props}
+                        placeholder="mm/dd/yyyy"
+
+                    />
+                </div>
+
                 <div className="date-picker-toggle">
                     <i className="fas fa-calendar-alt"/>
                 </div>

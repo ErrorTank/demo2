@@ -31,7 +31,7 @@ export class MainRoute extends React.Component {
                         <Route exact path="/venue/:venueID" component={VenueEditRoute}/>
                         <Route exact path="/events" component={EventListRoute}/>
                         <Route exact path="/event-new" component={EventNewRoute}/>
-                        <Route exact path="/event/:eventID" component={EventEditRoute}/>
+                        <Route exact path="/event/:eventID/:step" component={EventEditRoute}/>
                         <Route render={(props) => <Redirect to="/events"/>}/>
                     </Switch>
 

@@ -28,7 +28,8 @@ export const timezones = [
     {abbr: "GMT", value: "GMT Standard Time", text: "(UTC+00:00) Dublin, Edinburgh, Lisbon, London"},
 ];
 
-export function mapAbbr(value = "GMT Standard Time") {
+export const mapAbbr = (value = "GMT Standard Time") => {
     if (value === "UTC") return "UTC";
     return timezones.find(t => t.value === value).abbr;
-}
+};
+
