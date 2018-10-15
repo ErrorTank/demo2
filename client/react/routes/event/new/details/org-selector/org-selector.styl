@@ -1,0 +1,38 @@
+.org-selector{
+  .org-search{
+    .label{
+      color #4d4d4d
+      font-weight bold
+      font-size sm + 0.2rem
+    }
+  }
+  .search-field{
+    margin-top 10px
+    position relative
+    .clear-data{
+      position absolute
+      font-size sm
+      cursor pointer
+      right 10px
+      top 6px
+      color #7dbc36
+    }
+    input{
+      width 100%
+      border 1px solid grey
+      border-radius 4px
+      font-size sm
+      padding 6px 10px
+      outline none
+      white-space nowrap
+    }
+  }
+  .org-logo{
+    cursor pointer
+    &.active{
+      .circle-img{
+        border-color #7dbc36
+      }
+    }
+  }
+}

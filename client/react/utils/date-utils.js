@@ -20,10 +20,39 @@ let parseTime = ({day, month, year, hour, minute}) => {
   return formatDate(new Date(`${month}/${day}/${year} ${hour}:${minute}`), "hh:mm a")
 };
 
+let convertOffsetToMinutes = (offset) => {
+    if (!offset || offset.length != 5) {
+        throw new Error("offset must be a string and has format `-0500`");
+    }
+    const sign = offset.substr(0, 1) == "+" ? 1 : -1;
+    const hours = parseInt(offset.substr(1, 2));
+    const minutes = parseInt(offset.substr(3, 2));
+    return sign * (hours * 60 + minutes);
+};
+
+let toDate = (date) => {
+    if (typeof date === "string") return new Date(date);
+    const {year, month, day = 1, hour = 0, minute = 0, second = 0} = date;
+    return new Date(year, month - 1, day, hour, minute, second);
+};
+
+let remainingTimeFromNow = (date) => {
+    let dateNow = new Date().getTime();
+
+    if (date.offset) {
+        const _date = new Date();
+        dateNow = _date.getTime() + _date.getTimezoneOffset() * 60 * 1000 - convertOffsetToMinutes(date.offset) * 60 * 1000;
+    }
+
+    return toDate(date).getTime() - dateNow;
+};
+
 export  {
     formatDate,
     getTimestamp,
     formatWithTz,
     parseDate,
-    parseTime
+    parseTime,
+    remainingTimeFromNow,
+    toDate
 }

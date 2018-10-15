@@ -9,19 +9,82 @@ import {InputTime} from "../../../common/input-time/input-time";
 import {CommonSelect} from "../../../common/common-select/common-select";
 import {orgApi} from "../../../../api/common/app/org-api";
 import {VenueEditForm} from "./venue-edit-form/venue-edit-form";
+import _ from "lodash"
+import {venueApi} from "../../../../api/common/app/venue-api";
+import {eventApi} from "../../../../api/common/app/event-api";
+import {PromiseSerial} from "../../../utils/common-utils";
+import {facebookApi} from "../../../../api/common/app/fb-api";
 
 export class EventEditDetails extends React.Component{
     constructor(props){
         super(props);
         this.state={
             eventDraft: props.event,
+            saving: false
         };
         console.log(props);
 
     };
 
     save = () => {
+        this.setState({saving: true});
+        let {eventDraft} = this.state;
+        const {event: oldEvent, eventOverview, onChangeEvent} = this.props;
+        let promises = [
+            () => {
+                const date_time = eventDraft.time_tbd ? {
+                    ...eventDraft.date_time,
+                    hour: 12,
+                    minute: 0,
+                    second: 0,
+                    timezone: eventDraft.timezone || eventDraft.date_time.timezone
+                } : {
+                    ...eventDraft.date_time,
+                    timezone: eventDraft.timezone || eventDraft.date_time.timezone
+                };
 
+                return Promise.resolve(Object.assign(
+                    {},
+                    eventDraft,
+                    { date_time }
+                ));
+            }
+        ];
+        if(eventDraft.venue_map){
+            if(!eventDraft.venue_map.id){
+
+                promises.push(([event]) => {
+                    const {venue_map, organization} = event;
+                    return venueApi.upsertVenueMaps(organization.id, venue_map.venue.id, venue_map)
+                })
+            }
+            if(!eventDraft.venue_map.id || eventDraft.venue_map.id !== oldEvent.venue_map.id) {
+
+                promises.push(([event, venueMap = event.venue_map]) =>
+                {
+                    console.log(event)
+                    console.log(venueMap)
+                    return eventApi.updateVenueMapToExistingEvent(event.id, venueMap.id)
+                }
+                );
+            }
+        }
+        promises.push(([event, venue_map = event.venue_map]) => eventApi.upsertEvent({
+            ...event,
+            venue_map,
+            ticketing_provider_config: oldEvent.ticketing_provider_config
+        }));
+        PromiseSerial(promises).then((cols) => {
+            const updatedEvent = cols.pop();
+
+            if(eventOverview.has_facebook_event && (!_.isEqual(oldEvent.title, updatedEvent.title) || !_.isEqual(oldEvent.venue_map.venue.id, updatedEvent.venue_map.venue.id))) {
+                let updatedVenue = !_.isEqual(oldEvent.venue_map.venue.id, updatedEvent.venue_map.venue.id);
+                facebookApi.updateEventOnFb(null, eventDraft.id, updatedVenue);
+            }
+
+            this.setState({saving: false});
+            onChangeEvent(updatedEvent);
+        });
     };
 
     handleChange = (obj) => {
@@ -31,9 +94,9 @@ export class EventEditDetails extends React.Component{
 
 
     render(){
-        let {loading, eventDraft, venues} = this.state;
+        let {loading, eventDraft, venues, saving} = this.state;
         let {title, date_time, time_tbd, description, venue_map} = eventDraft || {};
-
+        let disabled = saving || _.isEqual(eventDraft, this.props.event)
         return(
            <PageFormLayout
                 className="event-edit-details-route"
@@ -97,7 +160,6 @@ export class EventEditDetails extends React.Component{
                             isTextArea
                         />
                         <VenueEditForm
-                            venues={venues}
                             venueMap={venue_map}
                             requiredData={{
                                 orgID: eventDraft.organization.id
@@ -111,7 +173,7 @@ export class EventEditDetails extends React.Component{
                     <CommonFormControl
                         onCancel={() => customHistory.push("/events")}
                         onSave={() => this.save()}
-                        canSave={false}
+                        canSave={!disabled}
                     />
                 )}
            />

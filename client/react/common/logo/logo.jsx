@@ -7,10 +7,14 @@ export class Logo extends React.Component{
         };
     };
     render(){
-        let {label, imgSrc} = this.props;
+        let {label, imgSrc, onClick, className} = this.props;
         return(
-            <div className="logo">
-                <div className="circle-img">
+            <div className={`logo ${className ? className :""}`}
+                 onClick={onClick}
+            >
+                <div className="circle-img"
+
+                >
                     <img src={imgSrc}/>
                 </div>
                 <p className="logo-label">

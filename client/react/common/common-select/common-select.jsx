@@ -11,7 +11,8 @@ export class CommonSelect extends React.Component {
 
     render() {
         let {open} = this.state;
-        let {value, label, list, displayAs, className, onChange, compare, placeholder} = this.props;
+        let {value, label, list, displayAs, className, onChange, compare, placeholder, displaySelected, disabled = false} = this.props;
+
         return (
             <div className={`common-select ${className}`}>
                 {label && (
@@ -21,13 +22,13 @@ export class CommonSelect extends React.Component {
                 )}
 
                 <ClickOutside onClickout={() => this.setState({open: false})}>
-                    <div className="select"
+                    <div className={`select ${disabled ? "disabledEvent disabled" : ""}`}
                          onClick={() => !open && this.setState({open: true})}
                     >
                         <div className="select-toggle"
 
                         >
-                            {value ? displayAs(value) : placeholder ? placeholder : ""}
+                            {value ? displaySelected ? displaySelected(value) :displayAs(value) : placeholder ? placeholder : ""}
                             <i className="fas fa-sort-down"/>
                         </div>
                         {open && (

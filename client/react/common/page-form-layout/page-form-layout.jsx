@@ -14,7 +14,7 @@ export class PageFormLayout extends React.Component{
                     {renderForm}
                 </div>
                 <div className="page-form-control">
-                    {renderControl}
+                    {renderControl || ""}
                 </div>
             </div>
         );

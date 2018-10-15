@@ -8,7 +8,7 @@ export class InputTime extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            value: parseTime(props.value)
+            value: props.value ? parseTime(props.value) : ""
         };
     };
     handleChange = () => {
@@ -19,11 +19,7 @@ export class InputTime extends React.Component{
             let [hour, minute] = moment(this.state.value.replace(":","").replace(" ",""), "hhmma").format("HH:mm").split(":");
             this.props.onChange(Object.assign({}, this.props.value, {hour: Number(hour), minute: Number(minute)}));
         }
-        else{
-            this.setState({
-                value: parseTime(this.props.value)
-            })
-        }
+
 
     };
 

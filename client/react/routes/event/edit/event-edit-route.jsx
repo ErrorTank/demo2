@@ -5,12 +5,12 @@ import {customHistory} from "../../../main-route";
 import {EventStatusBar} from "../event-status-bar/event-status-bar";
 import {EventChildRoute} from "../event-child-route/event-child-route";
 import {EventEditDetails} from "../details/event-edit-details";
-import {ImageNav} from "../../../common/image-nav/image-nav";
+import {InpageNav} from "../../../common/inpage-nav/inpage-nav";
 
-export class EventEditRoute extends React.Component{
-    constructor(props){
+export class EventEditRoute extends React.Component {
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             loading: true
         };
         let eventID = props.match.params.eventID;
@@ -19,7 +19,7 @@ export class EventEditRoute extends React.Component{
     };
 
 
-    getEventInfo =eventID => {
+    getEventInfo = eventID => {
         this.setState({event: null, eventOverview: null, loading: true});
         return Promise.all([
             eventApi.getEvent(eventID),
@@ -28,28 +28,32 @@ export class EventEditRoute extends React.Component{
     };
 
 
+    render() {
 
-    render(){
         let {loading} = this.state;
         const {event, eventOverview} = this.state;
         const {eventID} = this.props.match.params;
-
+        console.log(this.props);
         const org = event && event.organization || null;
         const navLinks = [{
-            to: `/a/event/${eventID}/details`,
+            to: `/event/${eventID}/details`,
             label: "Details",
+            route: "details"
         }, {
-            to: `/a/event/${eventID}/outings`,
+            to: `/event/${eventID}/outings`,
             label: "Outings",
+            route: "outings"
         }, {
-            to: `/a/event/${eventID}/buyer-report`,
+            to: `/event/${eventID}/buyer-report`,
             label: "Buyer Report",
+            route: "buyer-report"
         }, {
-            to: `/a/event/${eventID}/integration`,
+            to: `/event/${eventID}/integration`,
             label: "Integration",
+            route: "integration",
             condition: () => org != null && org.ticketing_provider_config && org.ticketing_provider_config.ticketing_provider > 0,
         }];
-        return(
+        return (
             <InitTitle
                 title="Groupmatics Management"
             >
@@ -57,7 +61,8 @@ export class EventEditRoute extends React.Component{
                     <Fragment>
                         <div className="event-edit-route">
                             <div className="header">
-                                <div>
+                                <div className="status-wrap">
+                                    <div>
                                             <span className="navigate-to-list"
                                                   onClick={() => customHistory.push("/events")}
                                             >
@@ -65,19 +70,23 @@ export class EventEditRoute extends React.Component{
                                                 &nbsp;
                                                 Back to Events
                                             </span>
+                                    </div>
+                                    <EventStatusBar
+                                        eventOverview={eventOverview}
+                                        eventID={eventID}
+                                        reloadEvent={() => this.getEventInfo(eventID)}
+                                    />
                                 </div>
-                                <EventStatusBar
-                                    eventOverview={eventOverview}
-                                    eventID={eventID}
-                                    reloadEvent={() => this.getEventInfo(eventID)}
+
+                                <InpageNav links={navLinks.filter((link) => link.condition == null || link.condition())}
+                                           activeRoute={this.props.match.params.step}
                                 />
-                                <ImageNav links={navLinks.filter((link) => link.condition == null || link.condition())}/>
                             </div>
                             <EventChildRoute
                                 event={event}
                                 eventOverview={eventOverview}
                                 eventID={eventID}
-                                onChangeEvent = {(event) => this.setState({event})}
+                                onChangeEvent={(event) => this.setState({event})}
                             />
                         </div>
 

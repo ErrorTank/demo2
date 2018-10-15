@@ -1,6 +1,7 @@
 import React from "react";
 import {customHistory} from "../../main-route";
 import {Pagination} from "../pagination/pagination";
+import _ from "lodash";
 
 export class DataTable extends React.Component {
     constructor(props) {
@@ -12,15 +13,26 @@ export class DataTable extends React.Component {
             total: null,
             loading: false
         };
-        this.loadData(this.props);
+        if(props.api){
+            this.loadData(props);
+        }
+
+
     };
 
     componentWillReceiveProps(nextProps) {
-        let {filter} = this.props;
-        let {filter: nextFilter} = nextProps;
-        if (filter.keyword !== nextFilter.keyword || filter.orgID !== nextFilter.orgID) {
-            this.loadData(nextProps);
+        let {filter, api} = this.props;
+        if(api){
+            let {filter: nextFilter} = nextProps;
+            console.log(nextFilter)
+            console.log(filter)
+
+            if (filter.keyword !== nextFilter.keyword || filter.orgID !== nextFilter.orgID || !_.isEqual(filter.season, nextFilter.season)) {
+                this.loadData(nextProps);
+            }
         }
+
+
     };
 
     loadData = (changes = {}) => {
@@ -29,8 +41,7 @@ export class DataTable extends React.Component {
         return api({skip: (page - 1) * pageSize, take: pageSize, filter, sort}).then(result => {
             this.setState({
                 rows: result.rows,
-                total: result.total,
-                page: 1
+                total: result.total
             })
         })
     };
@@ -53,7 +64,9 @@ export class DataTable extends React.Component {
 
     render() {
         let {className, columns, rowLinkTo, pageSize} = this.props;
-        let {rows, page, total, sort} = this.state;
+        let {page, total, sort} = this.state;
+
+        let rows = this.props.rows || this.state.rows;
         return (
             <div className={`data-table ${className}`}>
                 <div className="table-wrap">
@@ -75,13 +88,13 @@ export class DataTable extends React.Component {
                             rows.map((each, i) => (
                                 <tr key={i}
                                     className="data-item"
-                                    onClick={() => customHistory.push(rowLinkTo(each))}
+                                    onClick={() => rowLinkTo && customHistory.push(rowLinkTo(each))}
                                 >
                                     {columns.map((col, j) => (
-                                        <th key={j}
+                                        <td key={j}
                                         >
                                             {col.cellDisplay(each)}
-                                        </th>
+                                        </td>
                                     ))}
                                 </tr>
                             )): (

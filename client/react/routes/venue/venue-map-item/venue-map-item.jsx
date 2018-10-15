@@ -1,6 +1,7 @@
 import React from "react";
 import {DropZone} from "../../../common/drop-zone/drop-zone";
 import {Toggle} from "../../../common/toggle/toggle";
+import {uploadNewImage} from "../venue-edit-map/venue-edit-map";
 
 const uploadPlaceholder = (
     <p className="upload-placeholder">Drop image here to upload</p>

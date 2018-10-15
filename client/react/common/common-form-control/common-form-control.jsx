@@ -7,7 +7,7 @@ export class CommonFormControl extends React.Component{
         };
     };
     render(){
-        let {onCancel, canSave, onSave} = this.props;
+        let {onCancel, canSave, onSave, disabled} = this.props;
         return(
             <div className="common-form-control">
                 <button className="cancel"

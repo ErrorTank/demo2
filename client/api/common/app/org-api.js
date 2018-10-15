@@ -21,4 +21,8 @@ export const orgApi = {
     getVenues(organizationId) {
         return appApi.get(`/manage/organization/${organizationId}/venues`);
     },
+    getOrg(orgID){
+        return appApi.get(`/manage/organization/${orgID}`);
+    }
+
 };

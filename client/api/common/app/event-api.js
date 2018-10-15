@@ -11,10 +11,16 @@ export const eventApi = {
         let paramsURL = urlUtils.buildParams(params);
         return appApi.get("/manage/event/overviews" + paramsURL)
     },
+    upsertEvent(draftEvent) {
+        return appApi.put(`/manage/event`, draftEvent);
+    },
     getEvent: eventID => appApi.get("/manage/event/" + eventID),
     getEventOverview: eventID => appApi.get("/manage/event/" + eventID+"/overview"),
     disableEnableEvent(eventID, status) {
         return appApi.put(`/manage/event/${eventID}/disable/${status}`)
+    },
+    updateVenueMapToExistingEvent(eventId, venueMapId) {
+        return appApi.put(`/manage/event/update/${eventId}/${venueMapId}`);
     },
     // canDelete: venueID => appApi.get("/manage/venue/can-delete/" + venueID),
     deleteEvent: (eventID) => appApi.delete(`/manage/event/${eventID}`),

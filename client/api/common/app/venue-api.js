@@ -15,5 +15,8 @@ export const venueApi = {
     canDelete: venueID => appApi.get("/manage/venue/can-delete/" + venueID),
     deleteVenue: (venueID, orgID) => appApi.delete(`/manage/organization/${orgID}/venue/${venueID}`),
     canDeleteVenueMap: venueMapId => appApi.get(`/manage/venue/venue-map/can-delete/${venueMapId}`),
-    upsertVenue: (venue, orgID) => appApi.put(`/manage/organization/${orgID}/venue`, venue)
+    upsertVenue: (venue, orgID) => appApi.put(`/manage/organization/${orgID}/venue`, venue),
+    upsertVenueMaps(organizationId, venueId, venueMap) {
+        return appApi.put(`/manage/organization/${organizationId}/venue/${venueId}/map`, venueMap);
+    },
 };
