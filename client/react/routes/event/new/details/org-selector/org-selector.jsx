@@ -64,7 +64,6 @@ export class OrgSelector extends React.Component {
             orgs.filter(each => each.id.toLowerCase() === value.id.toLowerCase()) :
             (keyword && keyword.length >= 3) ?
                 this.getFilteredList(orgs, keyword) : orgs;
-        console.log(list)
         return (
             <div className="org-selector">
                 {orgs && (

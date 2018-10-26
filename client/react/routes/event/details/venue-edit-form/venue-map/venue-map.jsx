@@ -28,7 +28,7 @@ export class VenueMap extends React.Component{
     render(){
         let {showUpload} = this.state;
         let {onChange, maps, venueMap} = this.props;
-
+        console.log(maps)
         return(
             <div className="venue-map">
                 {showUpload ? (

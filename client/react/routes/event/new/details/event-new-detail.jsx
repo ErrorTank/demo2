@@ -25,7 +25,6 @@ export class EventNewDetail extends React.Component{
         let {event, onChange} = this.props;
 
         let {title, date_time, time_tbd, venue_map, timezone} = event || {};
-        console.log(event)
         return(
             <div className="event-new-detail">
                 <OrgSelector
@@ -97,7 +96,7 @@ export class EventNewDetail extends React.Component{
                                 placeholder="Timezone"
                             />
                             <VenueEditForm
-                                venueMap={venue_map}
+                                venueMap={venue_map }
                                 requiredData={{
                                     orgID: event.organization.id
                                 }}
