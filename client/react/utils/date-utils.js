@@ -15,7 +15,13 @@ let getTimestamp = date => {
 let parseDate = ({day, month, year}) => {
   return formatDate(new Date(`${month}/${day}/${year}`),"MM/DD/YYYY")
 };
+let parseStrToDate = (str) => {
 
+};
+
+let addDay = (date, days) => {
+    return new Date(date.setDate(new Date(date).getDate() + days));
+};
 let parseTime = ({day, month, year, hour, minute}) => {
   return formatDate(new Date(`${month}/${day}/${year} ${hour}:${minute}`), "hh:mm a")
 };
@@ -54,5 +60,6 @@ export  {
     parseDate,
     parseTime,
     remainingTimeFromNow,
-    toDate
+    toDate,
+    addDay
 }

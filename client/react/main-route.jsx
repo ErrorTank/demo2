@@ -10,6 +10,8 @@ import {VenueNewRoute} from "./routes/venue/new/venue-new-route";
 import {EventListRoute} from "./routes/event/event-list-route";
 import {EventNewRoute} from "./routes/event/new/event-new-route";
 import {EventEditRoute} from "./routes/event/edit/event-edit-route";
+import {DiscountListRoute} from "./routes/discount/list/discount-list";
+import {DiscountEditRoute} from "./routes/discount/edit/discount-edit";
 
 export class MainRoute extends React.Component {
     constructor(props) {
@@ -32,6 +34,8 @@ export class MainRoute extends React.Component {
                         <Route exact path="/events" component={EventListRoute}/>
                         <Route exact path="/event-new" component={EventNewRoute}/>
                         <Route exact path="/event/:eventID/:step" component={EventEditRoute}/>
+                        <Route exact path="/discounts" component={DiscountListRoute}/>
+                        <Route exact path="/discount/:discountID/:step" component={DiscountEditRoute}/>
                         <Route render={(props) => <Redirect to="/events"/>}/>
                     </Switch>
 

@@ -39,6 +39,7 @@ export class DataTable extends React.Component {
         let {pageSize, filter, api} = changes;
         let {page, sort} = this.state;
         return api({skip: (page - 1) * pageSize, take: pageSize, filter, sort}).then(result => {
+            console.log(result)
             this.setState({
                 rows: result.rows,
                 total: result.total

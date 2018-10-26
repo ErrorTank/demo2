@@ -1,0 +1,36 @@
+.checkbox {
+  width 20px
+  height 20px
+  background white;
+  border 1px solid #dedede;
+  cursor not-allowed;
+  transition background 200ms;
+  position relative;
+  border-radius 3px;
+  text-align center
+
+  &.checked {
+    background #15b4fc
+  }
+
+  &:not(.disabled) {
+    cursor: pointer;
+
+
+    &.checked {
+      border-color transparent;
+      &:hover {
+        background darken(#15b4fc, 10%);
+      }
+    }
+  }
+
+  .check-icon {
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+    font-size 10px
+    color #fff
+  }
+}
