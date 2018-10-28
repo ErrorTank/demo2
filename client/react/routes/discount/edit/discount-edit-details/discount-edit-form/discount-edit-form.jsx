@@ -8,6 +8,9 @@ import {InputDate} from "../../../../../common/input-date/input-date";
 import {LabelCheckbox} from "../../../../../common/label-checkbox/label-checkbox";
 import {formatGmDateTime} from "../../../../../utils/format";
 import {Toggle} from "../../../../../common/toggle/toggle";
+import {DiscountEditCode} from "./discount-edit-code/discount-edit-code";
+import {DiscountActiveGroups} from "./discount-active-groups/discount-active-groups";
+import {DiscountPastOuting} from "./discount-past-outing/discount-past-outing";
 
 export class DiscountEditForm extends React.Component{
     constructor(props){
@@ -22,8 +25,8 @@ export class DiscountEditForm extends React.Component{
     };
 
     render(){
-        let {data, editRoute, changeOrigin, onChange} = this.props;
-        let {name, description, id, creator, organization, valid_from, valid_thru, allow_use_on_multiple_outings} = data;
+        let {data, editRoute, changeOrigin, onChange, selectedGroups, onChangeSelectedGroups, onDeleteDiscount} = this.props;
+        let {name, description, id, creator, organization, valid_from, valid_thru, allow_use_on_multiple_outings, discount_codes} = data;
         console.log(data)
         return(
             <div className="discount-edit-form">
@@ -108,6 +111,24 @@ export class DiscountEditForm extends React.Component{
                         onToggle={(val) => this.handleChangeData({allow_use_on_multiple_outings: val})}
                     />
                 </div>
+                <DiscountEditCode
+                  discountID={id}
+                  orgID={organization.id}
+                  discount_codes={discount_codes}
+                  onChange={discount_codes => this.handleChangeData({discount_codes})}
+                />
+              <DiscountActiveGroups
+                orgID={organization.id}
+                selectedGroups={selectedGroups}
+                onChangeSelectedGroups={onChangeSelectedGroups}
+              />
+              <DiscountPastOuting
+                discountID={id}
+              />
+              <a className="delete-discount"
+                 onMouseDown={() => onDeleteDiscount()}>
+                <u>Delete this discount</u>
+              </a>
             </div>
         );
     }

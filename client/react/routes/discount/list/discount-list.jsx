@@ -21,8 +21,8 @@ export class DiscountListRoute extends React.Component {
                 label: () => "Current Season",
                 value: ({currentSeason: true})
             }, {
-                label: () => "Last Season",
-                value: ({lastSeason: true})
+                label: () => "Past Season",
+                value: ({pastSeasons: true})
             }, {
                 label: () => "All Seasons",
                 value: null

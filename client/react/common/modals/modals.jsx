@@ -30,7 +30,7 @@ export const appModal = {
         });
         return modal.result;
     },
-    confirm({text, title, btnText, cancelText}) {
+    confirm({text, title, btnText = "Confirm", cancelText = "Cancel"}) {
         const modal = modals.openModal({
             content: (
                 <div className="confirm-modal">
