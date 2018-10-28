@@ -28,7 +28,7 @@ export class CommonSelect extends React.Component {
                         <div className="select-toggle"
 
                         >
-                            {value ? displaySelected ? displaySelected(value) :displayAs(value) : placeholder ? placeholder : ""}
+                            {(value!==null && value !==undefined) ? displaySelected ? displaySelected(value) : displayAs(value) : placeholder ? placeholder : ""}
                             <i className="fas fa-sort-down"/>
                         </div>
                         {open && (
