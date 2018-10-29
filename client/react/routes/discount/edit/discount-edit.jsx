@@ -78,7 +78,7 @@ export class DiscountEditRoute extends React.Component{
                                     </div>
                                     <div className="logo-wrapper">
                                         <Logo
-                                            label={org.name}
+                                            label={discount.name}
                                             imgSrc={org.logo_url}
                                         />
                                     </div>

@@ -38,7 +38,6 @@ export class MultipleCode extends React.Component {
   render() {
     let {value} = this.state;
     let {discount_codes, onChange} = this.props;
-    console.log(discount_codes)
 
     return (
       <div className={"multiple-code"}>

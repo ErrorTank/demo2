@@ -22,8 +22,10 @@ export class DiscountPastOuting extends React.Component {
 
         { pastOutings != null && (
           pastOutings.length > 0 ?
-            pastOutings.map((pastOuting) => (
-              <div className="line">
+            pastOutings.map((pastOuting, i) => (
+              <div className="line"
+                   key={i}
+              >
                 <div className="title">
                   {pastOuting.title}
                 </div>

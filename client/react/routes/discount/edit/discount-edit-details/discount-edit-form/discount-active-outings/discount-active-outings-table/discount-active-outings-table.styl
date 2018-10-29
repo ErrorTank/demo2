@@ -1,0 +1,84 @@
+.discount-active-outings-table {
+  clear: both;
+  margin-top: 15px;
+  max-height: 400px;
+  overflow: auto;
+
+  .outing-table {
+    .header {
+      background: #CCCCCC;
+
+      padding: 1px 10px;
+      position: relative;
+
+      &.not-part-header {
+        padding 10px;
+      }
+
+      .label-checkbox {
+        top: 3px;
+
+        .label {
+          color: #fff !important;
+          font-size: 13px;
+          font-weight: bold;
+
+        }
+      }
+
+      & > h3 {
+        font-size: 13px;
+        color: #01295F;
+      }
+
+      .outings-count {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        font-size: 13px;
+      }
+    }
+
+    &.part-of-group-page .header{
+      background: #01295F;
+      padding: 10px 10px 15px;
+    }
+
+    .body {
+      color #15232e !important
+      .outing {
+        position: relative;
+        background: #fff;
+        border: 1px solid #E6E6E6;
+        font-size: 13px;
+        padding: 10px 75px;
+
+        &:nth-child(even) {
+          background: #F8F8F8;
+        }
+
+        .checkbox {
+          position: absolute;
+          left: 45px;
+        }
+
+        .name {
+          float: left;
+          width: 60%;
+
+          span {
+            font-weight: bold;
+          }
+
+          .access_code .material-icons {
+            font-size: 13px;
+          }
+        }
+
+        .event {
+          padding-left: 60%;
+        }
+      }
+    }
+  }
+}

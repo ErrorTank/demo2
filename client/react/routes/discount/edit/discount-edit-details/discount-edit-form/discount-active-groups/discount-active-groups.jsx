@@ -24,14 +24,14 @@ export class DiscountActiveGroups extends React.Component {
         <div className="input-label">
           Groups this discount is valid for
 
-          <div className="inputs">
-            <InputSearch
-              className="search-discount"
-              onSearch={kw => this.setState({keyword: kw})}
-            />
-          </div>
-        </div>
 
+        </div>
+        <div className="inputs">
+          <InputSearch
+            className="search-discount"
+            onSearch={kw => this.setState({keyword: kw})}
+          />
+        </div>
         { groups && (
           <DiscountGroupsTable
             selectedGroups={selectedGroups}

@@ -45,7 +45,6 @@ export class Pagination extends React.Component{
     render(){
         let {value, total, onClick} = this.props;
         let pages =  this.getShowPages();
-        console.log(pages);
         return(
             <div className="app-pagination">
                 {value !== 1 && (

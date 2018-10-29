@@ -33,4 +33,14 @@ export const discountApi = {
   getPastOutingAppliedDiscount(discountId) {
     return appApi.get(`/manage/outing/${discountId}/past-outings`);
   },
+  upsertDiscount(discount) {
+
+    return appApi.put(`/manage/discount`, discount);
+  },
+  toggleDiscountOuting(discountId, outingId, enabled, allowGroupToPromote = false) {
+    return appApi.put(`/manage/discount/${discountId}/toggle/outing/${outingId}/${enabled}/${allowGroupToPromote}`)
+  },
+  toggleDiscountGroup(discountId, groupId, enabled, allowGroupToPromote = false) {
+    return appApi.put(`/manage/discount/${discountId}/toggle/group/${groupId}/${enabled}/${allowGroupToPromote}`)
+  },
 };
